@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Loan EMI Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5ff;
+      display: flex;
+      justify-content: center;
+      margin-top: 50px;
+    }
+    .calculator {
+      border: 2px solid #0047ab;
+      padding: 20px 30px;
+      border-radius: 10px;
+      background: white;
+      color: #000;
+      width: 300px;
+      box-shadow: 0 0 10px rgba(0,0,255,0.2);
+    }
+    h2 {
+      color: #0000cc;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .results {
+      margin-top: 20px;
+      background: #007bff;
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h2>Loan EMI Calculator</h2>
+    <label for="amount">Loan Amount (₹):</label>
+    <input type="number" id="amount" placeholder="Enter loan amount">
+
+    <label for="rate">Annual Interest Rate (%):</label>
+    <input type="number" id="rate" placeholder="Enter interest rate">
+
+    <label for="years">Tenure (Years):</label>
+    <input type="number" id="years" placeholder="Enter years">
+
+    <button onclick="calculateEMI()">Calculate</button>
+
+    <div class="results" id="results" style="display: none;">
+      <p><strong>Loan Amount:</strong> ₹<span id="displayAmount"></span></p>
+      <p><strong>Total Interest:</strong> ₹<span id="totalInterest"></span></p>
+      <p><strong>EMI:</strong> ₹<span id="emi"></span></p>
+      <p><strong>Total Repayment:</strong> ₹<span id="totalRepayment"></span></p>
+    </div>
+  </div>
+
+  <script>
+    function calculateEMI() {
+      const P = parseFloat(document.getElementById("amount").value);
+      const annualRate = parseFloat(document.getElementById("rate").value);
+      const years = parseFloat(document.getElementById("years").value);
+
+      if (isNaN(P) || isNaN(annualRate) || isNaN(years)) {
+        alert("Please enter valid numbers!");
+        return;
+      }
+
+      const R = annualRate / 12 / 100;
+      const N = years * 12;
+
+      const emi = (P * R * Math.pow(1 + R, N)) / (Math.pow(1 + R, N) - 1);
+      const totalRepayment = emi * N;
+      const totalInterest = totalRepayment - P;
+
+      // Display results
+      document.getElementById("displayAmount").innerText = P.toFixed(0);
+      document.getElementById("totalInterest").innerText = totalInterest.toFixed(0);
+      document.getElementById("emi").innerText = emi.toFixed(0);
+      document.getElementById("totalRepayment").innerText = totalRepayment.toFixed(0);
+
+      document.getElementById("results").style.display = "block";
+    }
+  </script>
+</body>
+</html>
